@@ -48,6 +48,12 @@ Créez un fichier phpunit.xml à la racine du projet
 
 3. Une fois dans wsl, lancer la commande : `make install`
 
-4. Une fois make installer lancer la commande `make tests` pour lancer les tests
+4. Une fois make installer lancer la commande `make test` pour lancer les tests
 
-# PARTIE 4 : Création d'une image docker 
+# PARTIE 4 : Création d'une image docker
+
+1. Dans wsl taper la commande : `make build` pour créer une image docker
+
+2. Puis taper la commande `make run` pour lancer le conteneur de l'image
+
+3. Pour arrêter le container taper la commande `make stop`
