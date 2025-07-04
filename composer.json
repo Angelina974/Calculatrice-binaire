@@ -1,0 +1,17 @@
+{
+    "name": "julia/calculatrice-binaire",
+    "description": "Calculatrice",
+    "require-dev": {
+        "phpunit/phpunit": "^9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Julia\\CalculatriceBinaire\\": "src/"
+        }
+    },
+    "authors": [{
+        "name": "Julia",
+        "email": "julia.angelina.grossi@gmail.com"
+    }],
+    "require": {}
+}
