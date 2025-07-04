@@ -1,72 +1,18 @@
 <?php
-// Fonction de validation : chaîne ne contenant que des 0 et des 1
-function isBinary(string $s): bool {
-    return preg_match('/^[01]+$/', $s) === 1;
-}
+require_once __DIR__ . '/src/functions.php';
 
-// Initialisation des variables
-$error   = '';
-$result  = '';
-$a_bin   = $_POST['a_bin']   ?? '';
-$b_bin   = $_POST['b_bin']   ?? '';
-$op      = $_POST['operation'] ?? '';
+$error  = '';
+$result = '';
+$a_bin = $_POST['a_bin']   ?? '';
+$b_bin = $_POST['b_bin']   ?? '';
+$op    = $_POST['operation'] ?? '';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Vérification des entrées
-    if (!isBinary($a_bin) || !isBinary($b_bin)) {
-        $error = 'Veuillez entrer deux nombres binaires valides (uniquement 0 et 1).';
-    } elseif ($op === 'div' && bindec($b_bin) === 0) {
-        $error = 'Division par zéro impossible.';
-    } else {
-        // Conversion en décimal
-        $a = bindec($a_bin);
-        $b = bindec($b_bin);
 
-        // Calcul selon l’opération choisie
-        switch ($op) {
-            case 'add':
-                $r = $a + $b;
-                $result = decbin($r);
-                break;
-            case 'sub':
-                $r = $a - $b;
-                // Si résultat négatif, on le traite ici comme un entier signé à deux compléments
-                if ($r >= 0) {
-                    $result = decbin($r);
-                } else {
-                    // Exemple : sur 8 bits
-                    $bits = 8;
-                    $result = substr(decbin($r & ((1 << $bits) - 1)), -$bits);
-                }
-                break;
-            case 'mul':
-                $r = $a * $b;
-                $result = decbin($r);
-                break;
-            case 'div':
-                // Division entière + reste
-                $quot = intdiv($a, $b);
-                $rem  = $a % $b;
-                $result = decbin($quot) . ' (quotient)';
-                if ($rem !== 0) {
-                    $result .= ' ; reste = ' . decbin($rem);
-                }
-                break;
-            case 'and':
-                $r = $a & $b;
-                $result = decbin($r);
-                break;
-            case 'or':
-                $r = $a | $b;
-                $result = decbin($r);
-                break;
-            case 'xor':
-                $r = $a ^ $b;
-                $result = decbin($r);
-                break;
-            default:
-                $error = 'Opération non reconnue.';
-        }
+if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+    try {
+        $result = calculateBinary($a_bin, $b_bin, $op);
+    } catch (InvalidArgumentException $e) {
+        $error = $e->getMessage();
     }
 }
 ?>

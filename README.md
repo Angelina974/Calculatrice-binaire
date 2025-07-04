@@ -11,13 +11,15 @@
 4. Tester dans le navigateur
 `http://localhost:8000/`
 
-# PARTIE 2 : Ajouter des tests unitaires
+# PARTIE 2 : Ajouter des tests unitaires et d'intégrations
 
 1. Initialisez composer :
-`docker run --rm -v "%cd%":/app -w /app composer init --no-interaction`
+`composer init`
+Si il y a un fichier `composer.json` dans le projet il suffit de faire la commande suicante : `composer install`
 
 2. Installez PHPUnit en dépendance de développement :
-`docker run --rm -v "%cd%":/app -w /app composer require --dev phpunit/phpunit:^9`
+`composer require --dev phpunit/phpunit:^10.0`  
+
 
 3. Configurer PHPUnit :
 Créez un fichier phpunit.xml à la racine du projet
@@ -29,3 +31,23 @@ Créez un fichier phpunit.xml à la racine du projet
 5. Mettre à jour le Dockerfile pour Composer & PHPUnit
 **Rebuild :** 
     - `docker build -t calc-binaire-php:test .`
+
+6. Lancer les tests avec du détail dans les réponses
+` ./vendor/bin/phpunit --testdox`
+
+# PARTIE 3 : Installer des dépendances php
+
+- Installer PHPStan
+- Installer PHPMD
+- Installer PHPCPD
+- Créer un makefile ou un script pour lancer tout ça avec les tests 
+
+1. Création d'in fichier Makefile à la racine du projet
+
+2. Lancer wsl dans le terminal
+
+3. Une fois dans wsl, lancer la commande : `make install`
+
+4. Une fois make installer lancer la commande `make tests` pour lancer les tests
+
+# PARTIE 4 : Création d'une image docker 

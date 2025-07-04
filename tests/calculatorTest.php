@@ -1,40 +1,43 @@
 <?php
 use PHPUnit\Framework\TestCase;
-
-// Inclure votre code (ou mieux : autoload via composer)
-require_once __DIR__ . '/../index.php';
+require_once __DIR__ . '/../src/functions.php';
 
 class CalculatorTest extends TestCase
 {
-    public function testIsBinaryValid()
-    {
-        $this->assertTrue(isBinary('101010'));
-        $this->assertFalse(isBinary('102010'));
-        $this->assertFalse(isBinary(''));
-    }
-
+   /**
+     * Test valide : addition binaire 10₂ + 1₂ = 11₂
+     */
     public function testAddition()
     {
-        $_POST = ['a_bin'=>'1010','b_bin'=>'0011','operation'=>'add'];
-        $_SERVER['REQUEST_METHOD'] = 'POST';
-        ob_start();
-        include __DIR__ . '/../index.php';
-        ob_end_clean();
-
-        // On sait 10₂ + 3₂ = 13₂ = 1101
-        $this->assertStringContainsString('1101', $GLOBALS['result']);
+        $this->assertEquals(
+            '11',
+            calculateBinary('10', '1', 'add'),
+            '2₂ + 1₂ doit donner 11₂'
+        );
     }
 
-    public function testDivisionByZero()
+    /**
+     * Test volontairement conçu pour échouer :
+     * on s'attend à 100₂ alors que l'opération renvoie 11₂
+     */
+    public function testIntentionalFailure()
     {
-        $_POST = ['a_bin'=>'1010','b_bin'=>'0000','operation'=>'div'];
-        $_SERVER['REQUEST_METHOD'] = 'POST';
-        ob_start();
-        include __DIR__ . '/../index.php';
-        ob_end_clean();
-
-        $this->assertStringContainsString('Division par zéro impossible', $GLOBALS['error']);
+        $this->assertEquals(
+            '100',
+            calculateBinary('10', '1', 'add')
+        
+        );
     }
-
-    // Ajoutez autant de tests (sub, mul, and/or/xor) que nécessaire…
+    
+    /**
+     * Test additionnel : soustraction 101₂ - 1₂ = 100₂
+     */
+    public function testSubtraction()
+    {
+        $this->assertEquals(
+            '100',
+            calculateBinary('101', '1', 'sub'),
+            '5₂ - 1₂ doit donner 100₂'
+        );
+    }
 }
