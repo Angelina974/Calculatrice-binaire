@@ -8,9 +8,9 @@ PHPCPD     = ./vendor/bin/phpcpd src
 DOCKER_IMG = calcul-binaire
 CONTAINER_NAME = calcul-binaire-container
 
-.PHONY: all install test stan md pcpd
+.PHONY: all install build docker test stan md pcpd
 
-all: test stan md pcpd
+all: install test stan md pcpd docker
 
 build:
 	docker build -t $(DOCKER_IMG) .
