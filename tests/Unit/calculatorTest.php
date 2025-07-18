@@ -1,6 +1,6 @@
 <?php
 use PHPUnit\Framework\TestCase;
-require_once __DIR__ . '/../src/functions.php';
+require_once __DIR__ . '/../../src/functions.php';
 
 class CalculatorTest extends TestCase
 {
@@ -17,16 +17,18 @@ class CalculatorTest extends TestCase
     }
 
     /**
-     * Test volontairement conçu pour échouer :
-     * on s'attend à 100₂ alors que l'opération renvoie 11₂
+     * Test volontairement conçu pour échouer
      */
-    public function testIntentionalFailure()
+    public function testInvalidBinaryInput(): void
     {
-        $this->assertEquals(
-            '100',
-            calculateBinary('10', '1', 'add')
-        
-        );
+        $this->expectException(\InvalidArgumentException::class);
+        calculateBinary('10a', '101', 'add');
+    }
+
+    public function testUnknownOperation(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        calculateBinary('10', '1', 'foo');
     }
     
     /**
@@ -40,4 +42,6 @@ class CalculatorTest extends TestCase
             '5₂ - 1₂ doit donner 100₂'
         );
     }
+
+    
 }

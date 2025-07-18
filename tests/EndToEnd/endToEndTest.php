@@ -11,7 +11,7 @@ class EndToEndTest extends TestCase
     {
         // Crée un client HTTP Symfony pointant vers le serveur local
         $this->client = new HttpBrowser(HttpClient::create([
-            'base_uri' => 'http://localhost:8000'
+            'base_uri' => 'http://127.0.0.1:8000'
         ]));
     }
 

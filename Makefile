@@ -5,7 +5,7 @@ PORT	   = 8000
 PHPUNIT    = ./vendor/bin/phpunit --colors=always
 PHPSTAN    = ./vendor/bin/phpstan analyze src tests --level=max
 PHPMD      = ./vendor/bin/phpmd src text cleancode,codesize,controversial,design,naming,unusedcode
-PHPCPD     = ./vendor/bin/phpcpd src
+PHPCPD     = ./vendor/bin/phpcpd src tests --exclude vendor
 DOCKER_IMG = calcul-binaire
 CONTAINER_NAME = calcul-binaire-container
  
@@ -13,6 +13,8 @@ CONTAINER_NAME = calcul-binaire-container
 
 # Installe les dépendances 
 all: install test stan md pcpd docker
+
+qa: test stan md pcpd
 
 build:
 	docker build -t $(DOCKER_IMG) .

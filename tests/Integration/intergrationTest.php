@@ -10,7 +10,7 @@ class IntegrationTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->indexFile = __DIR__ . '/../index.php';
+        $this->indexFile = __DIR__ . '/../../index.php';
     }
 
     /**
